@@ -85,10 +85,13 @@ def transcribe_file(args, m4a_file, prev_end_time):
                     minutes = time_since_prev.seconds // 60
                     # These "x minutes later" lines are useful when converting to journal entries, giving me a quick gauge for how long I spent doing something between two voice memos. Since I push the text through a generative AI for first pass formatting, this really helps there too (current AI not being great at math, they're helped by having an explicit "x minutes later" line rather than timestamps).
                     write(f"[ {minutes} minutes later... ]")
+                prev_end_time = end_time
 
+                transcript = transcript.replace("[BLANK_AUDIO]", "").strip()
+                if not transcript:
+                    continue
                 adjusted_line = f"> {transcript.strip()}"
                 write(adjusted_line)
-                prev_end_time = end_time
             else:
                 # Ignore blank lines but fail on other unexpected lines
                 if line.strip():
