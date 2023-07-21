@@ -35,6 +35,8 @@ def transcribe_file(args, m4a_file, prev_end_time):
             _, time_string = last_line.split("Memo ended at ")
             return datetime.strptime(time_string, "%Y-%m-%d %H:%M:%S")
 
+    sys.stderr.write(f"Transcribing {m4a_file}...\n")
+
     # Parse date and time from the file name
     date_string = m4a_file.split("Recording ")[1].split(" at ")[0]
     time_string = m4a_file.split(" at ")[1].split(".m4a")[0]
@@ -125,7 +127,6 @@ if __name__ == "__main__":
 
     def transcribe_one(m4a_file):
         global last_end_time
-        sys.stderr.write(f"Transcribing {m4a_file}...\n")
         last_end_time = transcribe_file(args, m4a_file, last_end_time)
 
 
